@@ -19,9 +19,14 @@ object DatabaseModule
     @Singleton
     fun provideDatabase(
         @ApplicationContext context : Context
-    ) = Room.databaseBuilder(
-        context,
-        CardGameDatabase::class.java,
-        CARD_GAME_DATABASE
-    ).build()
+    ) : CardGameDatabase
+    {
+        return Room
+            .databaseBuilder(
+                context ,
+                CardGameDatabase::class.java ,
+                CARD_GAME_DATABASE
+            )
+            .build()
+    }
 }
