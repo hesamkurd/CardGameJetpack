@@ -9,7 +9,7 @@ import ir.mamhesam.cardgamejetpack.domain.model.Hero
 import ir.mamhesam.cardgamejetpack.domain.model.HeroRemoteKey
 
 
-@Database(entities = [Hero::class, HeroRemoteKey::class], version = 1)
+@Database(entities = [Hero::class, HeroRemoteKey::class], version = 1, exportSchema = false)
 @TypeConverters(DatabaseConverter::class)
 abstract class CardGameDatabase : RoomDatabase()
 {
