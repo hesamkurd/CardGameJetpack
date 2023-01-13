@@ -2,6 +2,7 @@ package ir.mamhesam.cardgamejetpack.presentation.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mamhesam.cardgamejetpack.domain.use_cases.UseCases
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class SplashViewModel @Inject constructor(
     private val useCases : UseCases
 ): ViewModel()
