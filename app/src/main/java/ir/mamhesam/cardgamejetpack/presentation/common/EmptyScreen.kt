@@ -1,9 +1,7 @@
 package ir.mamhesam.cardgamejetpack.presentation.common
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
@@ -15,24 +13,24 @@ import androidx.paging.LoadState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import ir.mamhesam.cardgamejetpack.R
 import ir.mamhesam.cardgamejetpack.ui.theme.DarkGray
 import ir.mamhesam.cardgamejetpack.ui.theme.LightGray
 import ir.mamhesam.cardgamejetpack.ui.theme.NETWORK_ERROR_ICON_HEIGHT
 import ir.mamhesam.cardgamejetpack.ui.theme.SMALL_PADDING
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 
 @Composable
 fun EmptyScreen(error : LoadState.Error)
 {
     val message by remember {
-        mutableStateOf(parseErrorMessage(message = error.toString()))
+        mutableStateOf(parseErrorMessage(error = error))
     }
     val icon by remember {
         mutableStateOf(R.drawable.network_error)
@@ -91,15 +89,15 @@ fun EmptyContent(
     
 }
 
-fun parseErrorMessage(message : String) : String
+fun parseErrorMessage(error : LoadState.Error) : String
 {
-    return when
+    return when (error.error)
     {
-        message.contains("SocketTimeoutException") ->
+        is SocketTimeoutException ->
         {
             "Server Unavailable"
         }
-        message.contains("ConnectException") ->
+        is ConnectException ->
         {
             "Internet Unavailable"
         }

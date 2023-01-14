@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import ir.mamhesam.cardgamejetpack.navigation.Screen
 import ir.mamhesam.cardgamejetpack.presentation.common.ListContetn
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -18,7 +19,9 @@ fun HomeScreen(
     
     Scaffold (
         topBar = {
-            HomeTopBar(onSearchClicked = {})
+            HomeTopBar(onSearchClicked = {
+                navController.navigate(Screen.Search.route)
+            })
         },
         content = {
             ListContetn(
