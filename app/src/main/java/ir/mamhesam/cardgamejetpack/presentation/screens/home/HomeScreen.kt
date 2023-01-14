@@ -1,18 +1,17 @@
 package ir.mamhesam.cardgamejetpack.presentation.screens.home
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
-import ir.mamhesam.cardgamejetpack.presentation.components.RatingWidget
-import ir.mamhesam.cardgamejetpack.ui.theme.LARGE_PADDING
+import ir.mamhesam.cardgamejetpack.presentation.common.ListContetn
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
+    navController : NavHostController,
     homeViewModel : HomeViewModel = hiltViewModel()
 ){
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
@@ -20,8 +19,12 @@ fun HomeScreen(
     Scaffold (
         topBar = {
             HomeTopBar(onSearchClicked = {})
+        },
+        content = {
+            ListContetn(
+                navController = navController,
+                heroes = allHeroes
+            )
         }
-    ){
-        RatingWidget(modifier = Modifier.padding(all = LARGE_PADDING), rating = 3.4)
-    }
+    )
 }
