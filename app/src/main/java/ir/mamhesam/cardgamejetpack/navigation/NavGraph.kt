@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
+import ir.mamhesam.cardgamejetpack.presentation.screens.details.DetailsScreen
 import ir.mamhesam.cardgamejetpack.presentation.screens.home.HomeScreen
 import ir.mamhesam.cardgamejetpack.presentation.screens.splash.SplashScreen
 import ir.mamhesam.cardgamejetpack.presentation.screens.welcome.WelcomeScreen
@@ -36,7 +37,7 @@ fun SteupNavGraph(navController : NavHostController)
                 type = NavType.IntType
             })
         ) {
-        
+            DetailsScreen(navController = navController)
         }
         composable(route = Screen.Search.route) {
             SearchScreen(navController = navController)
