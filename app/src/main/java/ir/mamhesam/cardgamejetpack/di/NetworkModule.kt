@@ -12,6 +12,7 @@ import ir.mamhesam.cardgamejetpack.domain.repository.RemoteDataSource
 import ir.mamhesam.cardgamejetpack.util.Constants.BASE_URL
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

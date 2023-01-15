@@ -6,10 +6,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import ir.mamhesam.cardgamejetpack.data.local.CardGameDatabase
 import ir.mamhesam.cardgamejetpack.data.paging_source.HeroRemoteMediator
+import ir.mamhesam.cardgamejetpack.data.paging_source.SearchHeroSource
 import ir.mamhesam.cardgamejetpack.data.remote.CardGameApi
 import ir.mamhesam.cardgamejetpack.domain.model.Hero
 import ir.mamhesam.cardgamejetpack.domain.repository.RemoteDataSource
-import ir.mamhesam.cardgamejetpack.util.Constants
 import ir.mamhesam.cardgamejetpack.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 
@@ -34,8 +34,16 @@ class RemoteDataSourceImpl(
         ).flow
     }
     
-    override fun searchHeroes() : Flow<PagingData<Hero>>
+    override fun searchHeroes(query: String) : Flow<PagingData<Hero>>
     {
-        TODO("Not yet implemented")
+        return Pager(
+            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+            pagingSourceFactory = {
+                SearchHeroSource(
+                    cardGameApi = cardGameApi,
+                    query = query
+                )
+            }
+        ).flow
     }
 }

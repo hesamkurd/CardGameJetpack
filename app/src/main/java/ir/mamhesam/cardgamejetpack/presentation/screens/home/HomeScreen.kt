@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import ir.mamhesam.cardgamejetpack.navigation.Screen
-import ir.mamhesam.cardgamejetpack.presentation.common.ListContetn
+import ir.mamhesam.cardgamejetpack.presentation.common.ListContent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -24,7 +24,7 @@ fun HomeScreen(
             })
         },
         content = {
-            ListContetn(
+            ListContent(
                 navController = navController,
                 heroes = allHeroes
             )

@@ -9,17 +9,15 @@ import ir.mamhesam.cardgamejetpack.data.local.CardGameDatabase
 import ir.mamhesam.cardgamejetpack.data.remote.CardGameApi
 import ir.mamhesam.cardgamejetpack.domain.model.Hero
 import ir.mamhesam.cardgamejetpack.domain.model.HeroRemoteKeys
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class HeroRemoteMediator @Inject constructor(
     private val cardGameApi : CardGameApi ,
     private val cardGameDatabase : CardGameDatabase
 ) : RemoteMediator<Int , Hero>()
 {
+    
     private val heroDao = cardGameDatabase.heroDao()
     private val heroRemoteKeysDao = cardGameDatabase.heroRemoteKeysDao()
     
@@ -29,10 +27,10 @@ class HeroRemoteMediator @Inject constructor(
         val lastUpdated =
             heroRemoteKeysDao.getRemoteKeys(heroId = 1)?.lastUpdated
             ?: 0L
-        val cacheTimeout = 5
+        val cacheTimeout = 1440
         
-        val diffInMinute = (currentTime - lastUpdated) / 1000 / 60
-        return if (diffInMinute.toInt() <= cacheTimeout)
+        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        return if (diffInMinutes.toInt() <= cacheTimeout)
         {
             InitializeAction.SKIP_INITIAL_REFRESH
         } else
@@ -77,7 +75,8 @@ class HeroRemoteMediator @Inject constructor(
                     nextPage
                 }
             }
-            val response = cardGameApi.getAllHeroes(page = page)
+            
+            val response =  cardGameApi.getAllHeroes(page = page)
             if (response.heroes.isNotEmpty())
             {
                 cardGameDatabase.withTransaction {
@@ -107,7 +106,6 @@ class HeroRemoteMediator @Inject constructor(
             return MediatorResult.Error(e)
         }
     }
-    
     
     private suspend fun getRemoteKeyClosestToCurrentPosition(
         state : PagingState<Int , Hero>
@@ -140,11 +138,12 @@ class HeroRemoteMediator @Inject constructor(
             ?.let { hero ->
                 heroRemoteKeysDao.getRemoteKeys(heroId = hero.id)
             }
-        
     }
-    private fun parseMillis(millis: Long): String {
-        val date = Date(millis)
-        val format = SimpleDateFormat("yyyy.MM.dd HH.mm", Locale.ROOT)
-        return format.format(date)
-    }
+
+//    private fun parseMillis(millis: Long): String {
+//        val date = Date(millis)
+//        val format = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.ROOT)
+//        return format.format(date)
+//    }
+
 }

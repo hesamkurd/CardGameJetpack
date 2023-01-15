@@ -13,6 +13,7 @@ import ir.mamhesam.cardgamejetpack.domain.use_cases.UseCases
 import ir.mamhesam.cardgamejetpack.domain.use_cases.get_all_heroes.GetAllHeroesUseCase
 import ir.mamhesam.cardgamejetpack.domain.use_cases.read_onboarding.ReadOnBoardingUseCase
 import ir.mamhesam.cardgamejetpack.domain.use_cases.save_onborading.SaveOnBoardingUseCase
+import ir.mamhesam.cardgamejetpack.domain.use_cases.search_heroes.SearchHeroesUseCase
 import javax.inject.Singleton
 
 @Module
@@ -32,7 +33,8 @@ object RepositoryModule
         return UseCases(
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
-            getAllHeroesUseCase = GetAllHeroesUseCase(repository)
+            getAllHeroesUseCase = GetAllHeroesUseCase(repository),
+            searchHeroesUseCase = SearchHeroesUseCase(repository)
         )
     }
 }

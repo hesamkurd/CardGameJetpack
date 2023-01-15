@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ir.mamhesam.cardgamejetpack.R
@@ -33,33 +34,31 @@ import ir.mamhesam.cardgamejetpack.presentation.components.ShimmerEffect
 import ir.mamhesam.cardgamejetpack.ui.theme.*
 import ir.mamhesam.cardgamejetpack.util.Constants.BASE_URL
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ListContetn(
-    navController : NavHostController ,
-    heroes : LazyPagingItems<Hero>
-)
-{
+fun ListContent(
+    heroes: LazyPagingItems<Hero>,
+    navController: NavHostController
+) {
     val result = handlePagingResult(heroes = heroes)
-    if (result){
     
+    if (result) {
         LazyColumn(
-            contentPadding = PaddingValues(all = SMALL_PADDING) ,
+            contentPadding = PaddingValues(all = SMALL_PADDING),
             verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
-            items(items = heroes ,
-                  key = { hero ->
-                      hero.id
-                  }) { hero ->
+            items(
+                items = heroes,
+                key = { hero ->
+                    hero.id
+                }
+            ) { hero ->
                 hero?.let {
-                    HeroItem(
-                        hero = it ,
-                        navController = navController
-                    )
+                    HeroItem(hero = it, navController = navController)
                 }
             }
         }
     }
-    
 }
 
 @Composable
@@ -73,13 +72,18 @@ fun handlePagingResult(
             loadState.append is LoadState.Error -> loadState.append as LoadState.Error
             else -> null
         }
+        
         return when {
             loadState.refresh is LoadState.Loading -> {
                 ShimmerEffect()
                 false
             }
             error != null -> {
-                EmptyScreen(error = error)
+                EmptyScreen(error = error, heroes = heroes)
+                false
+            }
+            heroes.itemCount < 1 -> {
+                EmptyScreen()
                 false
             }
             else -> true
@@ -87,22 +91,21 @@ fun handlePagingResult(
     }
 }
 
+@ExperimentalCoilApi
 @Composable
 fun HeroItem(
-    hero : Hero ,
-    navController : NavHostController
-)
-{
-    
-    Box(modifier = Modifier
-        .height(HERO_ITEM_HEIGHT)
-        .clickable {
-            navController.navigate(Screen.Details.passHeroId(hero.id))
-        } ,
-        contentAlignment = Alignment.BottomStart) {
-        Surface(
-            shape = RoundedCornerShape(size = LARGE_PADDING)
-        ) {
+    hero: Hero,
+    navController: NavHostController
+) {
+    Box(
+        modifier = Modifier
+            .height(HERO_ITEM_HEIGHT)
+            .clickable {
+                navController.navigate(Screen.Details.passHeroId(heroId = hero.id))
+            },
+        contentAlignment = Alignment.BottomStart
+    ) {
+        Surface(shape = RoundedCornerShape(size = LARGE_PADDING)) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize() ,
                 model = ImageRequest
@@ -113,17 +116,17 @@ fun HeroItem(
                 error = painterResource(R.drawable.placeholder) ,
                 contentDescription = stringResource(R.string.hero_image) ,
                 contentScale = ContentScale.Crop
-            
+    
             )
         }
         Surface(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
-                .fillMaxWidth() ,
-            color = Color.Black.copy(alpha = ContentAlpha.medium) ,
+                .fillMaxWidth(),
+            color = Color.Black.copy(alpha = ContentAlpha.medium),
             shape = RoundedCornerShape(
-                bottomStart = LARGE_PADDING ,
-                bottomEnd = LARGE_PADDING ,
+                bottomStart = LARGE_PADDING,
+                bottomEnd = LARGE_PADDING
             )
         ) {
             Column(
@@ -132,31 +135,31 @@ fun HeroItem(
                     .padding(all = MEDIUM_PADDING)
             ) {
                 Text(
-                    text = hero.name ,
-                    color = MaterialTheme.colors.topAppBarContentColor ,
-                    fontSize = MaterialTheme.typography.h5.fontSize ,
-                    fontWeight = FontWeight.Bold ,
-                    overflow = TextOverflow.Ellipsis ,
-                    maxLines = 1 ,
+                    text = hero.name,
+                    color = MaterialTheme.colors.topAppBarContentColor,
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = hero.about ,
-                    color = Color.White.copy(alpha = ContentAlpha.medium) ,
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize ,
-                    overflow = TextOverflow.Ellipsis ,
-                    maxLines = 3 ,
+                    text = hero.about,
+                    color = Color.White.copy(alpha = ContentAlpha.medium),
+                    fontSize = MaterialTheme.typography.subtitle1.fontSize,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Row(
-                    modifier = Modifier.padding(top = SMALL_PADDING) ,
-                    verticalAlignment = Alignment.CenterVertically ,
+                    modifier = Modifier.padding(top = SMALL_PADDING),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     RatingWidget(
-                        modifier = Modifier.padding(end = SMALL_PADDING) ,
+                        modifier = Modifier.padding(end = SMALL_PADDING),
                         rating = hero.rating
                     )
                     Text(
-                        text = "(${hero.rating})" ,
-                        textAlign = TextAlign.Center ,
+                        text = "(${hero.rating})",
+                        textAlign = TextAlign.Center,
                         color = Color.White.copy(alpha = ContentAlpha.medium)
                     )
                 }
