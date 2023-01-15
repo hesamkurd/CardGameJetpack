@@ -14,7 +14,7 @@ interface HeroDao
     fun getAllHeroes(): PagingSource<Int, Hero>
     
     @Query("SELECT * FROM hero_table WHERE id=:heroId")
-    fun hetSelectedHero(heroId: Int): Hero
+    fun getSelectedHero(heroId: Int): Hero
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addHero(heroes: List<Hero>)

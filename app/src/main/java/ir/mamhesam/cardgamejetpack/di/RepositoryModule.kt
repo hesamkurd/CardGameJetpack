@@ -11,6 +11,7 @@ import ir.mamhesam.cardgamejetpack.data.repository.Repository
 import ir.mamhesam.cardgamejetpack.domain.repository.DataStoreOperations
 import ir.mamhesam.cardgamejetpack.domain.use_cases.UseCases
 import ir.mamhesam.cardgamejetpack.domain.use_cases.get_all_heroes.GetAllHeroesUseCase
+import ir.mamhesam.cardgamejetpack.domain.use_cases.get_selected_hero.GetSelectedHeroUseCase
 import ir.mamhesam.cardgamejetpack.domain.use_cases.read_onboarding.ReadOnBoardingUseCase
 import ir.mamhesam.cardgamejetpack.domain.use_cases.save_onborading.SaveOnBoardingUseCase
 import ir.mamhesam.cardgamejetpack.domain.use_cases.search_heroes.SearchHeroesUseCase
@@ -34,7 +35,8 @@ object RepositoryModule
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
             getAllHeroesUseCase = GetAllHeroesUseCase(repository),
-            searchHeroesUseCase = SearchHeroesUseCase(repository)
+            searchHeroesUseCase = SearchHeroesUseCase(repository),
+            getSelectedHeroUseCase = GetSelectedHeroUseCase(repository)
         )
     }
 }

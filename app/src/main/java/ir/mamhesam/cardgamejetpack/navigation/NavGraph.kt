@@ -1,5 +1,6 @@
 package ir.mamhesam.cardgamejetpack.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -13,8 +14,7 @@ import ir.mamhesam.cardgamejetpack.presentation.screens.splash.SplashScreen
 import ir.mamhesam.cardgamejetpack.presentation.screens.welcome.WelcomeScreen
 import ir.mamhesam.cardgamejetpack.presentation.screens.search.SearchScreen
 import ir.mamhesam.cardgamejetpack.util.Constants.DETAILS_ARGUMENT_KEY
-
-@OptIn(ExperimentalPagerApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun SteupNavGraph(navController : NavHostController)
 {
